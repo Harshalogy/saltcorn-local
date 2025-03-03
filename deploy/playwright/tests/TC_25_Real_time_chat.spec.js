@@ -156,7 +156,7 @@ test.describe('E2E Test Suite', () => {
         // Select key to user as foreign key for sender
         await page.selectOption('#inputtype', { label: 'Key to users' });
         // Check require tag
-        await page.check(pageobject.RequiredcheckboxLocator);
+        // await page.check(pageobject.RequiredcheckboxLocator);
         // Click on next button
         await functions.submit();
         // Select UserID on summary field
