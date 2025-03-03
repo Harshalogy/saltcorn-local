@@ -156,7 +156,7 @@ test.describe('E2E Test Suite', () => {
         // Select key to user as foreign key for sender
         await page.selectOption('#inputtype', { label: 'Key to users' });
         // Check require tag
-        // await page.check(pageobject.RequiredcheckboxLocator);
+        await page.check(pageobject.RequiredcheckboxLocator);
         // Click on next button
         await functions.submit();
         // Select UserID on summary field
@@ -283,14 +283,14 @@ test.describe('E2E Test Suite', () => {
         await functions.submit();
         await page.waitForTimeout(2000);
 
-        // await functions.drag_And_Drop(pageobject.fieldsource, pageobject.thirdrowcolumn);
-        // await customAssert('field dropdown should be visible', async () => {
-        //     await page.waitForSelector(pageobject.fielddropdown);
-        //     await expect(page.locator(pageobject.fielddropdown)).toBeVisible();
-        //     await page.click(pageobject.fielddropdown);
-        //     // Select 'Date of birth' from the dropdown
-        //     await page.selectOption('select.form-control.form-select', 'Sender');
-        //   });
+        await functions.drag_And_Drop(pageobject.fieldsource, pageobject.thirdrowcolumn);
+        await customAssert('field dropdown should be visible', async () => {
+            await page.waitForSelector(pageobject.fielddropdown);
+            await expect(page.locator(pageobject.fielddropdown)).toBeVisible();
+            await page.click(pageobject.fielddropdown);
+            // Select 'Date of birth' from the dropdown
+            await page.selectOption('select.form-control.form-select', 'Sender');
+          });
 
         // click on next button
         await page.waitForSelector(pageobject.nextoption);
