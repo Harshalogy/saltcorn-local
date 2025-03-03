@@ -423,7 +423,7 @@ test.describe('E2E Test Suite', () => {
         // click on next button
         await page.waitForSelector(pageobject.nextoption);
         await page.click(pageobject.nextoption);
-        await page.click(pageobject.nextoption);
+        // await page.click(pageobject.nextoption);
         
         // Select room view for destination after message add
         await page.selectOption(pageobject.destinationview, { label: 'Room.room' });
