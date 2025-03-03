@@ -282,7 +282,7 @@ test.describe('E2E Test Suite', () => {
         // submit the page
         await functions.submit();
         await page.waitForTimeout(2000);
-        
+
         // click on next button
         await page.waitForSelector(pageobject.nextoption);
         await page.click(pageobject.nextoption);
@@ -303,12 +303,10 @@ test.describe('E2E Test Suite', () => {
         await page.fill(pageobject.discriptiontext, 'view for table');
 
         // select show view pattern
-        await customAssert('Select show view for message table', async () => {
         const ListPattern = await page.$("#inputviewtemplate");
         await ListPattern?.selectOption("Show");
         // Select message table for table name
         await page.locator('#inputtable_name').selectText('Messages');
-        });
         // submit the page
         await functions.submit();
         await page.waitForTimeout(2000);
@@ -329,12 +327,10 @@ test.describe('E2E Test Suite', () => {
         await page.fill(pageobject.discriptiontext, 'view for table');
 
         // select list pattern
-        await customAssert('Select list view for message table', async () => {
         const ListPattern = await page.$("#inputviewtemplate");
         await ListPattern?.selectOption("List");
         // Select message table for table name
         await page.locator('#inputtable_name').selectText('Messages');
-        });
         // submit the page
         await functions.submit();
         await page.waitForTimeout(2000);
@@ -342,24 +338,20 @@ test.describe('E2E Test Suite', () => {
         await page.waitForSelector(pageobject.addcolumnbutton);
         await page.click(pageobject.addcolumnbutton);
         // drag and drop the action locator for delete button
-        await customAssert('Add delete button on column', async () => {
         await page.waitForSelector(pageobject.ActionLocator);
         await functions.drag_And_Drop(pageobject.ActionLocator, pageobject.newcolumn);
-        });
         await page.waitForTimeout(2000);
         // click on next button
         await page.waitForSelector(pageobject.nextoption);
         await page.click(pageobject.nextoption);
 
         // Select view to create message
-        await customAssert('Select Message_add for view to create', async () => {
         await page.waitForSelector(pageobject.viewtocreate);
         await page.click(pageobject.viewtocreate);
         const viewtocreate = await page.$("#inputview_to_create");
         await viewtocreate?.selectOption("Message_Add [Edit]");
         // add lable for view to create message
         await functions.fill_Text(pageobject.labeltocreate, 'Add Message');
-        });
         // click on next button
         await functions.submit();
         await functions.submit();
@@ -376,37 +368,26 @@ test.describe('E2E Test Suite', () => {
         await page.fill(pageobject.InputName, 'Room');
 
         // select room pattern
-        await customAssert('Select room view for message table', async () => {
         const roomPattern = await page.$("#inputviewtemplate");
         await roomPattern?.selectOption("Room");
+
         await page.waitForTimeout(2000);
         await page.click('#inputtable_name');
         // Select Room table for table name
         await page.locator('#inputtable_name').selectOption({ label: 'Room' });
-        await page.waitForTimeout(2000);
-        // await page.locator('#inputtable_name').selectText('Room');
-        });
         // submit the page
         await functions.submit();
         await page.waitForTimeout(2000);
 
         // Select Message.room for message relation
-        await customAssert('Select Message.room for message relation', async () => {
-        await page.locator('#inputmsg_relation').selectText('Message.room');
-        });
+        await page.locator('#inputmsg_relation').selectOption({ label:'Messages.room' });
         // Select user for sender field
-        await customAssert('Select user for sender field', async () => {
-        await page.locator('#inputmsgsender_field').selectText('user');
-        });
+        await page.locator('#inputmsgsender_field').selectOption({ label:'sender' });
         // Select Message_show for message view
-        await customAssert('Select Message_show for message view', async () => {
         await page.click('#inputmsgview', { force: true });
         await page.locator('#inputmsgview').selectOption({ label: 'Message_Show' }, { force: true });
-        });
         // Select Message_Add for message form
-        await customAssert('Select Message_Add for message form', async () => {
         await page.locator('#inputmsgform').selectOption({ label: 'Message_Add' }, { force: true });
-        });
         await functions.submit();
     });
 
@@ -414,9 +395,7 @@ test.describe('E2E Test Suite', () => {
         await functions.views();
         // Configure the edit message view
         await page.click(pageobject.configureAddmsg);
-        await page.click(pageobject.fieldsource);
-        await page.click(pageobject.fieldsource);
-        await functions.drag_And_Drop(pageobject.fieldsource, pageobject.thirdrowcolumn);
+        await functions.drag_And_Drop(pageobject.fieldsource, pageobject.fourthrowcolumn);
         await customAssert('field dropdown should be visible', async () => {
             await page.waitForSelector(pageobject.fielddropdown);
             await expect(page.locator(pageobject.fielddropdown)).toBeVisible();
@@ -427,7 +406,7 @@ test.describe('E2E Test Suite', () => {
         // click on next button
         await page.waitForSelector(pageobject.nextoption);
         await page.click(pageobject.nextoption);
-        await page.click(pageobject.nextoption);
+        // await page.click(pageobject.nextoption);
         
         // Select room view for destination after message add
         await page.selectOption(pageobject.destinationview, { label: 'Room.room' });
