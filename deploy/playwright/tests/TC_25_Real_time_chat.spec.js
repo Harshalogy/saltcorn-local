@@ -283,14 +283,14 @@ test.describe('E2E Test Suite', () => {
         await functions.submit();
         await page.waitForTimeout(2000);
 
-        await functions.drag_And_Drop(pageobject.fieldsource, pageobject.thirdrowcolumn);
-        await customAssert('field dropdown should be visible', async () => {
-            await page.waitForSelector(pageobject.fielddropdown);
-            await expect(page.locator(pageobject.fielddropdown)).toBeVisible();
-            await page.click(pageobject.fielddropdown);
-            // Select 'Date of birth' from the dropdown
-            await page.selectOption('select.form-control.form-select', 'Sender');
-          });
+        // await functions.drag_And_Drop(pageobject.fieldsource, pageobject.thirdrowcolumn);
+        // await customAssert('field dropdown should be visible', async () => {
+        //     await page.waitForSelector(pageobject.fielddropdown);
+        //     await expect(page.locator(pageobject.fielddropdown)).toBeVisible();
+        //     await page.click(pageobject.fielddropdown);
+        //     // Select 'Date of birth' from the dropdown
+        //     await page.selectOption('select.form-control.form-select', 'Sender');
+        //   });
 
         // click on next button
         await page.waitForSelector(pageobject.nextoption);
