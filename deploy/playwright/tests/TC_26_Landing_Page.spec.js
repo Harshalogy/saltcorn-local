@@ -403,9 +403,9 @@ test.describe('E2E Test Suite', () => {
   test('Create a payment page and thank you and Test the landing Page', async () => {
     // Create a new page for landing page
     await functions.create_New_Page('Payment_Page');
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(4000);
     // Drag and drop the htmlCodeSource
-    await page.click(pageobject.htmlCodeSource);
+    await page.click(pageobject.htmlCodeSource, { force: true });
     await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
     await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="display: flex; justify-content: center; align-items: flex-start; height: 100vh; background-color: #f4f4f4; font-family: Arial, sans-serif;">
@@ -469,6 +469,7 @@ test.describe('E2E Test Suite', () => {
     await customAssert('Subscribe button on plan card should be visible and clickable', async () => {
       // click on subscribe button
       await page.click(pageobject.SubscribeButton, { force: true });
+      await page.waitForTimeout(2000);
     });
     // enter details
     await functions.fill_Text(pageobject.CardholderNameInput, 'john doe');
