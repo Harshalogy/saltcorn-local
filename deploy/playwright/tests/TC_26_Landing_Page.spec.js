@@ -468,14 +468,14 @@ test.describe('E2E Test Suite', () => {
     await page.click(pageobject.LandingPage);
     await customAssert('Subscribe button on plan card should be visible and clickable', async () => {
       // click on subscribe button
-      await page.click(pageobject.SubscribeButton);
+      await page.click(pageobject.SubscribeButton, { force: true });
     });
     // enter details
     await functions.fill_Text(pageobject.CardholderNameInput, 'john doe');
     await functions.fill_Text(pageobject.CardNumberInput, '4111111111111111');
     await functions.fill_Text(pageobject.Exdateinput, '10/36');
     await functions.fill_Text(pageobject.CVVinput, '926');
-    await customAssert('Subscribe button on plan card should be visible and clickable', async () => {
+    await customAssert('Proceed button on payment page should be visible and clickable', async () => {
       await expect(page.locator(pageobject.ProceedToPayButton)).toBeVisible();
       // click to proceed button
       await page.click(pageobject.ProceedToPayButton);
