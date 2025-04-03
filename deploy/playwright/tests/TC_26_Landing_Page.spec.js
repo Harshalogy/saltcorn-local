@@ -301,8 +301,10 @@ test.describe('E2E Test Suite', () => {
     await functions.create_New_Page('Landing_Page');
     await page.waitForTimeout(2000);
     // Drag and drop the text source
-    await page.waitForSelector(pageobject.htmlCodeSource);
-    await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
+    await customAssert('Click on html code source and drag on landing page', async () => {
+      await page.waitForSelector(pageobject.htmlCodeSource);
+      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
+    });
     await page.waitForTimeout(2000);
     await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="text-align: center; padding: 50px; background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; border-radius: 10px;">
@@ -315,8 +317,9 @@ test.describe('E2E Test Suite', () => {
     `);
     await functions.drag_And_Drop(pageobject.columnsElement, pageobject.target);
     await functions.fill_Text(pageobject.numbercolumn, '4');
-
-    await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_3);
+    await customAssert('Click on html code source and drag on column 3', async () => {
+      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_3);
+    });
     await functions.fill_Text(pageobject.htmltextlocator, `
     <div style="background-color: #d1ecf1; border: 2px solid #17a2b8; border-radius: 15px; padding: 20px; width: 320px; text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease-in-out;" 
      onmouseover="this.style.transform='scale(1.1)'" 
@@ -336,8 +339,9 @@ test.describe('E2E Test Suite', () => {
         </a>
     </div>
 `);
-
-    await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_2);
+    await customAssert('Click on html code source and drag on column 2', async () => {
+      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_2);
+    });
     await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="background-color: #d4edda; border: 2px solid #28a745; border-radius: 15px; padding: 20px; width: 320px; text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease-in-out;" 
      onmouseover="this.style.transform='scale(1.1)'" 
@@ -357,8 +361,9 @@ test.describe('E2E Test Suite', () => {
           </a>
       </div>
   `);
-
-    await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_4);
+    await customAssert('Click on html code source and drag on column 4', async () => {
+      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_4);
+    });
     await functions.fill_Text(pageobject.htmltextlocator, `
   <div style="background-color: #fff3cd; border: 2px solid #ffc107; border-radius: 15px; padding: 20px; width: 320px; text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease-in-out;" 
      onmouseover="this.style.transform='scale(1.1)'" 
@@ -378,7 +383,9 @@ test.describe('E2E Test Suite', () => {
       </a>
   </div>
 `);
-    await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1);
+    await customAssert('Click on html code source and drag on column 1', async () => {
+      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1);
+    });
     await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="background-color: #e3f2fd; border: 2px solid #2196f3; border-radius: 15px; padding: 20px; width: 320px; text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease-in-out;"
      onmouseover="this.style.transform='scale(1.1)'" 
@@ -405,8 +412,10 @@ test.describe('E2E Test Suite', () => {
     await functions.create_New_Page('Payment_Page');
     await page.waitForTimeout(4000);
     // Drag and drop the htmlCodeSource
-    await page.click(pageobject.htmlCodeSource, { force: true });
-    await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
+    await customAssert('Click on html code source and drag on payment page', async () => {
+      await page.click(pageobject.htmlCodeSource, { force: true });
+      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
+    });
     await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="display: flex; justify-content: center; align-items: flex-start; height: 100vh; background-color: #f4f4f4; font-family: Arial, sans-serif;">
           <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); width: 600px; text-align: center;">
@@ -448,8 +457,10 @@ test.describe('E2E Test Suite', () => {
     await functions.create_New_Page('Thank_you');
     await page.waitForTimeout(2000);
     // Drag and drop the text source
-    await page.waitForSelector(pageobject.htmlCodeSource);
-    await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
+    await customAssert('Click on html code source and drag on thankyou page', async () => {
+      await page.waitForSelector(pageobject.htmlCodeSource);
+      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
+    });
     await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="display: flex; justify-content: center; align-items: flex-start; height: 100vh; background-color: #f4f4f4; font-family: Arial, sans-serif;">
           <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); width: 600px; text-align: center;">
