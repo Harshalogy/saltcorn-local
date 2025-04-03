@@ -38,264 +38,6 @@ test.describe('E2E Test Suite', () => {
     await context.close();
   });
 
-  //Create Subscription Plan table
-  test('Create Subscription Plan table', async () => {
-    await functions.clear_Data();
-    // click table button
-    await functions.click_table();
-    // Click the "Create table" button
-    await page.click(pageobject.createtablebutton);
-    // Enter Table name
-    await functions.fill_Text(pageobject.InputName, 'Subscription_Plan');
-    // click on Create button
-    await page.click(pageobject.submitButton);
-    await page.click(pageobject.addFieldButtonLocator);
-    // Fill the lable name
-    await functions.fill_Text(pageobject.labelTextboxlocator, 'Plan Name');
-    // select the input type
-    const type = await page.$("#inputtype");
-    await type?.selectOption("String");
-    // Fill the discription
-    await functions.fill_Text(pageobject.descriptionSelector, 'Name of Subscription Plan');
-    // select the required check box
-    await page.waitForSelector(pageobject.RequiredcheckboxLocator);
-    await page.check(pageobject.RequiredcheckboxLocator);
-    // Click on next button
-    await functions.submit();
-    await functions.submit();
-    await functions.submit();
-  });
-
-  //Add Price field
-  test('Add Price field', async () => {
-    // Install money module for price
-    await functions.install_money();
-    // click table button
-    await functions.click_table();
-    await page.click(pageobject.Subs_Plantable);
-    await page.click(pageobject.addFieldButtonLocator);
-    // Fill the lable name
-    await functions.fill_Text(pageobject.labelTextboxlocator, 'Price');
-    // select the input type
-    const type = await page.$("#inputtype");
-    await type?.selectOption("Money");
-    // Fill the discription
-    await functions.fill_Text(pageobject.descriptionSelector, 'Price of Subscription Plan');
-    // Click on next button
-    await functions.submit();
-    // Input currency type
-    await functions.fill_Text(pageobject.inputcurrency, 'USD');
-    // Click on Next button
-    await functions.submit();
-  });
-
-  //Add Feature field
-  test('Add Feature field', async () => {
-    // Install money module for price
-    await functions.install_ckeditor();
-    // click table button
-    await functions.click_table();
-    await page.click(pageobject.Subs_Plantable);
-    await page.click(pageobject.addFieldButtonLocator);
-    // Fill the lable name
-    await functions.fill_Text(pageobject.labelTextboxlocator, 'Features');
-    // select the input type
-    const type = await page.$("#inputtype");
-    await type?.selectOption("HTML");
-    // Fill the discription
-    await functions.fill_Text(pageobject.descriptionSelector, 'Featurs of Subscription Plan');
-    // Submit the page
-    await functions.submit();
-    await functions.submit();
-  });
-
-  //Add cta_link and icon field
-  test('Add cta_link and icon field', async () => {
-    // click table button
-    await functions.click_table();
-    await page.click(pageobject.Subs_Plantable);
-    // Add cta_link field
-    await page.click(pageobject.addFieldButtonLocator);
-    // Fill the lable name
-    await functions.fill_Text(pageobject.labelTextboxlocator, 'cta_link');
-    // select the input type
-    const type = await page.$("#inputtype");
-    await type?.selectOption("String");
-    // Fill the discription
-    await functions.fill_Text(pageobject.descriptionSelector, 'Call to Action link of Subscription Plan');
-    // Submit the page
-    await functions.submit();
-    await functions.submit();
-
-    // Add icon field
-    await page.click(pageobject.addFieldButtonLocator);
-    // Fill the lable name
-    await functions.fill_Text(pageobject.labelTextboxlocator, 'Icon');
-    // select the input type
-    const type1 = await page.$("#inputtype");
-    await type1?.selectOption("File");
-    // Fill the discription
-    await functions.fill_Text(pageobject.descriptionSelector, 'Icon for Subscription Plan');
-    // Submit the page
-    await functions.submit();
-    await functions.fill_Text(pageobject.inputfilestype, 'image/*');
-    await functions.submit();
-  });
-
-  //Create Edit_Plan view with edit view pattern
-  test('Create Edit_Plan view with edit view pattern', async () => {
-    await functions.views();
-    // click on create new view
-    await page.click(pageobject.createnewview);
-    // input view name and discription
-    await page.fill(pageobject.InputName, 'Edit_Plan');
-    await page.fill(pageobject.discriptiontext, 'Add subscription Plan');
-    // select the Edit pattern
-    const EditPattern = await page.$("#inputviewtemplate");
-    await EditPattern?.selectOption("Edit");
-    // submit the page
-    await functions.submit();
-    // drag and drop the page source on the page
-    await page.waitForTimeout(2000);
-    await page.click(pageobject.inputfeatures);
-    await page.selectOption(pageobject.fieldViewdropdown, { label: 'CKEditor4' });
-    // click on next page
-    await page.waitForSelector(pageobject.nextoption);
-    await page.click(pageobject.nextoption);
-    // click on finish button
-    await functions.submit();
-  });
-
-  //Create list view For Subscription Plans
-  test('Create list view For Subscription Plans', async () => {
-    await functions.views();
-    // click on create new view
-    await page.click(pageobject.createnewview);
-    // input view name and discription
-    await page.fill(pageobject.InputName, 'Plan_List');
-    await page.fill(pageobject.discriptiontext, 'List of Subscription Plans');
-    // select list pattern
-    const ListPattern = await page.$("#inputviewtemplate");
-    await ListPattern?.selectOption("List");
-    // submit the page
-    await functions.submit();
-    await page.waitForTimeout(2000);
-    await page.click('text="[Link icon]"');
-    // Select 'Thumbnail' from the dropdown
-    await page.selectOption(pageobject.fieldViewdropdown, { label: 'Thumbnail' }); // If using a select dropdown
-    // Add new column for edit plan link
-    await page.click(pageobject.addcolumnbutton);
-    // drag and drop the action view link
-    await functions.drag_And_Drop(pageobject.viewlinksource, pageobject.newcolumn);
-    // add lable for link
-    await functions.fill_Text(pageobject.lebelforfield, 'Edit Plan');
-    // click on again new column button on page
-    await page.click(pageobject.addcolumnbutton);
-    // drag and drop the action locator for delete button
-    await functions.drag_And_Drop(pageobject.ActionLocator, pageobject.newcolumn);
-    // click on next button
-    await page.click(pageobject.nextoption);
-    await page.click(pageobject.viewtocreate);
-    const viewtocreate = await page.$("#inputview_to_create");
-    await viewtocreate?.selectOption("Edit_Plan [Edit]");
-    // add lable for view to create
-    await functions.fill_Text(pageobject.labeltocreate, 'Add New Plan');
-    // click on next button
-    await functions.submit();
-    // click on next button
-    await functions.submit();
-    await functions.submit();
-
-    // Add Plan_List view as Destination view for Edit_Plan view
-    await page.click(pageobject.configureEditPlan);
-    await page.click(pageobject.nextoption);
-    // select destination view
-    await page.click(pageobject.destinationview);
-    await page.selectOption(pageobject.destinationview, { label: 'Plan_List [List on Subscription_Plan]' });
-    // Finish the page
-    await functions.submit();
-  });
-
-  //Add Subscription plans from view
-  test('Add Subscription plans from view', async () => {
-    await functions.views();
-    await page.click(pageobject.PlanListlink);
-    await page.click(pageobject.addplanlink);
-    await functions.fill_Text(pageobject.inputplan_name, 'Basic Plan');
-    await functions.fill_Text(pageobject.inputprice, '9.99');
-    await functions.fill_Text(pageobject.inputcta_link, '/subscribe/basic');
-    // Add Feature in iframe
-    await page.waitForSelector('iframe');
-    // Wait for the iframe to be available
-    const frame = page.frameLocator('iframe');
-    // Wait for the body inside the iframe to be available
-    await frame.locator('body').waitFor();
-    // Optionally, ensure the body is visible before filling it
-    await frame.locator('body').waitFor({ state: 'visible' });
-    // Fill the content inside the iframe
-    await frame.locator('body').click(); // Ensure the body is focused
-    // make text bold
-    await page.click('#cke_12');
-    await frame.locator('body').type('Access to free content\nCommunity support\nLimited resources');
-    // Wait for the file input element to be available
-    const fileInput = await page.waitForSelector('input[type="file"]');
-    // Set the file input to the desired file
-    const filePath = 'Csv_file_to_uplaod/basic.png'; // Replace with the correct path to your png file
-    await fileInput.setInputFiles(filePath);
-    // Click on create button
-    await functions.submit();
-
-    await page.click(pageobject.addplanlink);
-    await functions.fill_Text(pageobject.inputplan_name, 'Pro Plan');
-    await functions.fill_Text(pageobject.inputprice, '19.99');
-    await functions.fill_Text(pageobject.inputcta_link, '/subscribe/Pro');
-    // Add Feature in iframe
-    await page.waitForSelector('iframe');
-    // Wait for the iframe to be available
-    const frame1 = page.frameLocator('iframe');
-    // Wait for the body inside the iframe to be available
-    await frame1.locator('body').waitFor();
-    // Optionally, ensure the body is visible before filling it
-    await frame1.locator('body').waitFor({ state: 'visible' });
-    // Fill the content inside the iframe
-    await frame1.locator('body').click(); // Ensure the body is focused
-    // make text bold
-    await page.click('#cke_12');
-    await frame1.locator('body').type('Everything in Basic\nExclusive content\nPriority support');
-    // Wait for the file input element to be available
-    const fileInput1 = await page.waitForSelector('input[type="file"]');
-    // Set the file input to the desired file
-    const filePath1 = 'Csv_file_to_uplaod/pro.jpg'; // Replace with the correct path to your png file
-    await fileInput1.setInputFiles(filePath1);
-    // Click on create button
-    await functions.submit();
-
-    await page.click(pageobject.addplanlink);
-    await functions.fill_Text(pageobject.inputplan_name, 'Premium Plan');
-    await functions.fill_Text(pageobject.inputprice, '29.99');
-    await functions.fill_Text(pageobject.inputcta_link, '/subscribe/Premium');
-    // Add Feature in iframe
-    await page.waitForSelector('iframe');
-    // Wait for the iframe to be available
-    const frame2 = page.frameLocator('iframe');
-    // Wait for the body inside the iframe to be available
-    await frame2.locator('body').waitFor();
-    // Optionally, ensure the body is visible before filling it
-    await frame2.locator('body').waitFor({ state: 'visible' });
-    // Fill the content inside the iframe
-    await frame2.locator('body').click(); // Ensure the body is focused
-    // make text bold
-    await page.click('#cke_12');
-    await frame2.locator('body').type('Everything in Basic\nExclusive content\nPriority support');
-    // Wait for the file input element to be available
-    const fileInput2 = await page.waitForSelector('input[type="file"]');
-    // Set the file input to the desired file
-    const filePath2 = 'Csv_file_to_uplaod/Premium.jpg'; // Replace with the correct path to your png file
-    await fileInput2.setInputFiles(filePath2);
-    // Click on create button
-    await functions.submit();
-  });
-
   test('Create a landing Page for Subscription Plans', async () => {
     // Create a new page for landing page
     await functions.create_New_Page('Landing_Page');
@@ -321,7 +63,7 @@ test.describe('E2E Test Suite', () => {
       await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_3);
     });
     await customAssert('Fill html code in html textbox', async () => {
-    await functions.fill_Text(pageobject.htmltextlocator, `
+      await functions.fill_Text(pageobject.htmltextlocator, `
     <div style="background-color: #d1ecf1; border: 2px solid #17a2b8; border-radius: 15px; padding: 20px; width: 320px; text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease-in-out;" 
      onmouseover="this.style.transform='scale(1.1)'" 
      onmouseout="this.style.transform='scale(1)'">
@@ -339,7 +81,8 @@ test.describe('E2E Test Suite', () => {
         <button style="background-color: #0056b3; color: white; font-size: 16px; font-weight: bold; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; box-shadow: 1px 1px 5px rgba(0,0,0,0.2);">Subscribe</button>
         </a>
     </div>
-`);});
+`);
+    });
     await customAssert('Click on html code source and drag on column 2', async () => {
       await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_2);
     });
@@ -408,17 +151,17 @@ test.describe('E2E Test Suite', () => {
     await functions.Save_Page_Project();
   });
 
-  test('Create a payment page and thank you and Test the landing Page', async () => {
+  test('Create a payment page', async () => {
     // Create a new page for landing page
     await functions.create_New_Page('Payment_Page');
     await page.waitForTimeout(10000);
     // Drag and drop the htmlCodeSource
     await customAssert('Click on html code source and drag on payment page', async () => {
-      await page.click(pageobject.htmlCodeSource, { force: true });
+      await page.waitForSelector(pageobject.htmlCodeSource);
       await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
     });
     await customAssert('Fill html code for payment page in html textbox', async () => {
-    await functions.fill_Text(pageobject.htmltextlocator, `
+      await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="display: flex; justify-content: center; align-items: flex-start; height: 100vh; background-color: #f4f4f4; font-family: Arial, sans-serif;">
           <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); width: 600px; text-align: center;">
               <h2 style="color: #333; margin-bottom: 20px;">Saltcorn Secure Payment</h2>
@@ -455,7 +198,9 @@ test.describe('E2E Test Suite', () => {
   `);
     });
     await functions.Save_Page_Project();
+  });
 
+  test('Create a Thank you page', async () => {
     // Create a new page for thank you
     await functions.create_New_Page('Thank_you');
     await page.waitForTimeout(2000);
@@ -476,7 +221,9 @@ test.describe('E2E Test Suite', () => {
       </div>
   `);
     await functions.Save_Page_Project();
+  });
 
+  test('testing for landing page, payemnt page and thank you page', async () => {
     // test the landing page
     await page.click(pageobject.newPage_sidebar);
     await page.click(pageobject.LandingPage);
@@ -486,10 +233,12 @@ test.describe('E2E Test Suite', () => {
       await page.waitForTimeout(2000);
     });
     // enter details
-    await functions.fill_Text(pageobject.CardholderNameInput, 'john doe');
-    await functions.fill_Text(pageobject.CardNumberInput, '4111111111111111');
-    await functions.fill_Text(pageobject.Exdateinput, '10/36');
-    await functions.fill_Text(pageobject.CVVinput, '926');
+    await customAssert('Enter card details on card', async () => {
+      await functions.fill_Text(pageobject.CardholderNameInput, 'john doe');
+      await functions.fill_Text(pageobject.CardNumberInput, '4111111111111111');
+      await functions.fill_Text(pageobject.Exdateinput, '10/36');
+      await functions.fill_Text(pageobject.CVVinput, '926');
+    });
     await customAssert('Proceed button on payment page should be visible and clickable', async () => {
       await expect(page.locator(pageobject.ProceedToPayButton)).toBeVisible();
       // click to proceed button
