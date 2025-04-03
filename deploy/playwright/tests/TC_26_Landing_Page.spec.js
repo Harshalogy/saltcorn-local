@@ -320,6 +320,7 @@ test.describe('E2E Test Suite', () => {
     await customAssert('Click on html code source and drag on column 3', async () => {
       await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_3);
     });
+    await customAssert('Fill html code in html textbox', async () => {
     await functions.fill_Text(pageobject.htmltextlocator, `
     <div style="background-color: #d1ecf1; border: 2px solid #17a2b8; border-radius: 15px; padding: 20px; width: 320px; text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease-in-out;" 
      onmouseover="this.style.transform='scale(1.1)'" 
@@ -338,7 +339,7 @@ test.describe('E2E Test Suite', () => {
         <button style="background-color: #0056b3; color: white; font-size: 16px; font-weight: bold; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; box-shadow: 1px 1px 5px rgba(0,0,0,0.2);">Subscribe</button>
         </a>
     </div>
-`);
+`);});
     await customAssert('Click on html code source and drag on column 2', async () => {
       await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_2);
     });
@@ -411,10 +412,12 @@ test.describe('E2E Test Suite', () => {
     // Create a new page for landing page
     await functions.create_New_Page('Payment_Page');
     await page.waitForTimeout(4000);
+    await functions.drag_And_Drop(pageobject.columnsElement, pageobject.target);
+    await functions.fill_Text(pageobject.numbercolumn, '1');
     // Drag and drop the htmlCodeSource
     await customAssert('Click on html code source and drag on payment page', async () => {
       await page.click(pageobject.htmlCodeSource, { force: true });
-      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
+      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1);
     });
     await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="display: flex; justify-content: center; align-items: flex-start; height: 100vh; background-color: #f4f4f4; font-family: Arial, sans-serif;">
