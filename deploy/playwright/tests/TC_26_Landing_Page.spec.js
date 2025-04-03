@@ -48,7 +48,8 @@ test.describe('E2E Test Suite', () => {
       await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
     });
     await page.waitForTimeout(2000);
-    await functions.fill_Text(pageobject.htmltextlocator, `
+    await customAssert('Fill html code in html textbox', async () => {
+      await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="text-align: center; padding: 50px; background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; border-radius: 10px;">
         <h1 style="font-size: 2.5em;">🚀 Welcome to Our Premium Plans!</h1>
         <p style="font-size: 1.2em;">Unlock exclusive features & elevate your experience. Choose the perfect plan and enjoy premium benefits!</p>
@@ -57,6 +58,7 @@ test.describe('E2E Test Suite', () => {
         </a>
       </div>
     `);
+    });
     await functions.drag_And_Drop(pageobject.columnsElement, pageobject.target);
     await functions.fill_Text(pageobject.numbercolumn, '4');
     await customAssert('Click on html code source and drag on column 3', async () => {
@@ -86,7 +88,8 @@ test.describe('E2E Test Suite', () => {
     await customAssert('Click on html code source and drag on column 2', async () => {
       await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_2);
     });
-    await functions.fill_Text(pageobject.htmltextlocator, `
+    await customAssert('Fill html code in html textbox', async () => {
+      await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="background-color: #d4edda; border: 2px solid #28a745; border-radius: 15px; padding: 20px; width: 320px; text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease-in-out;" 
      onmouseover="this.style.transform='scale(1.1)'" 
      onmouseout="this.style.transform='scale(1)'"> 
@@ -105,10 +108,12 @@ test.describe('E2E Test Suite', () => {
           </a>
       </div>
   `);
+    });
     await customAssert('Click on html code source and drag on column 4', async () => {
       await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1_4);
     });
-    await functions.fill_Text(pageobject.htmltextlocator, `
+    await customAssert('Fill html code in html textbox', async () => {
+      await functions.fill_Text(pageobject.htmltextlocator, `
   <div style="background-color: #fff3cd; border: 2px solid #ffc107; border-radius: 15px; padding: 20px; width: 320px; text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease-in-out;" 
      onmouseover="this.style.transform='scale(1.1)'" 
      onmouseout="this.style.transform='scale(1)'">
@@ -127,10 +132,12 @@ test.describe('E2E Test Suite', () => {
       </a>
   </div>
 `);
+    });
     await customAssert('Click on html code source and drag on column 1', async () => {
       await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1);
     });
-    await functions.fill_Text(pageobject.htmltextlocator, `
+    await customAssert('Fill html code in html textbox', async () => {
+      await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="background-color: #e3f2fd; border: 2px solid #2196f3; border-radius: 15px; padding: 20px; width: 320px; text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transition: transform 0.3s ease-in-out;"
      onmouseover="this.style.transform='scale(1.1)'" 
      onmouseout="this.style.transform='scale(1)'">
@@ -148,6 +155,7 @@ test.describe('E2E Test Suite', () => {
           <button style="background-color: #1976d2; color: white; font-size: 16px; font-weight: bold; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; box-shadow: 1px 1px 5px rgba(0,0,0,0.2);">Get Started</button>
       </div>
   `);
+    });
     await functions.Save_Page_Project();
   });
 
@@ -167,10 +175,11 @@ test.describe('E2E Test Suite', () => {
               <h2 style="color: #333; margin-bottom: 20px;">Saltcorn Secure Payment</h2>
   
               <form style="width: 100%;" onsubmit="event.preventDefault(); window.location.href='https://e2etest.saltcorn.co/page/Thank_you';">
-                  <div style="display: flex; flex-direction: column; margin-bottom: 15px; text-align: left;">
-                      <label style="font-weight: bold; margin-bottom: 5px;">Cardholder Name</label>
-                      <input type="text" placeholder="Card_Holder_Name" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
-                  </div>
+    <div style="display: flex; flex-direction: column; margin-bottom: 15px; text-align: left;">
+        <label for="cardholder-name" style="font-weight: bold; margin-bottom: 5px;">Cardholder Name</label>
+        <input type="text" id="cardholder-name" name="cardholder_name" placeholder="Card Holder Name" 
+            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
+    </div>
   
                   <div style="display: flex; flex-direction: column; margin-bottom: 15px; text-align: left;">
                       <label style="font-weight: bold; margin-bottom: 5px;">Card Number</label>
@@ -209,7 +218,8 @@ test.describe('E2E Test Suite', () => {
       await page.waitForSelector(pageobject.htmlCodeSource);
       await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
     });
-    await functions.fill_Text(pageobject.htmltextlocator, `
+    await customAssert('Fill html code in html textbox', async () => {
+      await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="display: flex; justify-content: center; align-items: flex-start; height: 100vh; background-color: #f4f4f4; font-family: Arial, sans-serif;">
           <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); width: 600px; text-align: center;">
               <h2 style="color: #28a745; font-size: 24px; margin-bottom: 10px;">Thank You for Your Payment!</h2>
@@ -220,6 +230,7 @@ test.describe('E2E Test Suite', () => {
           </div>
       </div>
   `);
+    });
     await functions.Save_Page_Project();
   });
 
@@ -233,8 +244,10 @@ test.describe('E2E Test Suite', () => {
       await page.waitForTimeout(2000);
     });
     // enter details
-    await customAssert('Enter card details on card', async () => {
+    await customAssert('Enter card holder name on card', async () => {
       await functions.fill_Text(pageobject.CardholderNameInput, 'john doe');
+    });
+    await customAssert('Enter card details on card', async () => {
       await functions.fill_Text(pageobject.CardNumberInput, '4111111111111111');
       await functions.fill_Text(pageobject.Exdateinput, '10/36');
       await functions.fill_Text(pageobject.CVVinput, '926');
