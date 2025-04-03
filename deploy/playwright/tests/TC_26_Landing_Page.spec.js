@@ -412,13 +412,12 @@ test.describe('E2E Test Suite', () => {
     // Create a new page for landing page
     await functions.create_New_Page('Payment_Page');
     await page.waitForTimeout(10000);
-    await functions.drag_And_Drop(pageobject.columnsElement, pageobject.target);
-    await functions.fill_Text(pageobject.numbercolumn, '1');
     // Drag and drop the htmlCodeSource
     await customAssert('Click on html code source and drag on payment page', async () => {
       await page.click(pageobject.htmlCodeSource, { force: true });
-      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.column1);
+      await functions.drag_And_Drop(pageobject.htmlCodeSource, pageobject.target);
     });
+    await customAssert('Fill html code for payment page in html textbox', async () => {
     await functions.fill_Text(pageobject.htmltextlocator, `
       <div style="display: flex; justify-content: center; align-items: flex-start; height: 100vh; background-color: #f4f4f4; font-family: Arial, sans-serif;">
           <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); width: 600px; text-align: center;">
@@ -427,12 +426,12 @@ test.describe('E2E Test Suite', () => {
               <form style="width: 100%;" onsubmit="event.preventDefault(); window.location.href='https://e2etest.saltcorn.co/page/Thank_you';">
                   <div style="display: flex; flex-direction: column; margin-bottom: 15px; text-align: left;">
                       <label style="font-weight: bold; margin-bottom: 5px;">Cardholder Name</label>
-                      <input type="text" placeholder="Card Holder Name" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
+                      <input type="text" placeholder="Card_Holder_Name" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
                   </div>
   
                   <div style="display: flex; flex-direction: column; margin-bottom: 15px; text-align: left;">
                       <label style="font-weight: bold; margin-bottom: 5px;">Card Number</label>
-                      <input type="number" placeholder="1234 5678 9012 3456" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
+                      <input type="number" placeholder="1234567890123456" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
                   </div>
   
                   <div style="display: flex; gap: 15px; margin-bottom: 15px; text-align: left;">
@@ -454,6 +453,7 @@ test.describe('E2E Test Suite', () => {
           </div>
       </div>
   `);
+    });
     await functions.Save_Page_Project();
 
     // Create a new page for thank you
