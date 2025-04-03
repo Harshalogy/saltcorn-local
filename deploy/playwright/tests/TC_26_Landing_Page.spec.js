@@ -251,9 +251,14 @@ test.describe('E2E Test Suite', () => {
       await page.click(pageobject.SubscribeButton, { force: true });
       await page.waitForTimeout(2000);
     });
+    
     // enter details
     await customAssert('Enter card holder name on card', async () => {
-      await functions.fill_Text(pageobject.CardholderNameInput, 'john doe');
+      await page.waitForTimeout(2000);
+      console.log(await page.url());
+
+    await page.locator('input[placeholder="Card Holder Name"]').fill('Sumit');
+
     });
     await customAssert('Enter card details on card', async () => {
       await functions.fill_Text(pageobject.CardNumberInput, '4111111111111111');
