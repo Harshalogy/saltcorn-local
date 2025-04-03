@@ -411,7 +411,7 @@ test.describe('E2E Test Suite', () => {
   test('Create a payment page and thank you and Test the landing Page', async () => {
     // Create a new page for landing page
     await functions.create_New_Page('Payment_Page');
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(10000);
     await functions.drag_And_Drop(pageobject.columnsElement, pageobject.target);
     await functions.fill_Text(pageobject.numbercolumn, '1');
     // Drag and drop the htmlCodeSource
