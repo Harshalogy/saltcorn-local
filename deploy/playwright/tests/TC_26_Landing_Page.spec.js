@@ -79,7 +79,7 @@ test.describe('E2E Test Suite', () => {
             <li>✔ Free Custom Domain</li>
             <li style="color: red;">❌ Advanced Analytics & Reports</li>
         </ul>
-        <a href="https://e2etest.saltcorn.co/page/Payment_Page?plan=Pro&amount=499" style="text-decoration: none;">
+        <a href="/page/Payment_Page?plan=Pro&amount=499" style="text-decoration: none;">
         <button style="background-color: #0056b3; color: white; font-size: 16px; font-weight: bold; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; box-shadow: 1px 1px 5px rgba(0,0,0,0.2);">Subscribe</button>
         </a>
     </div>
@@ -103,7 +103,7 @@ test.describe('E2E Test Suite', () => {
               <li style="color: red;">❌ Free Custom Domain & Hosting</li>
               <li style="color: red;">❌ Advanced Analytics & Reports</li>
           </ul>
-          <a href="https://e2etest.saltcorn.co/page/Payment_Page?plan=Basic&amount=199" style="text-decoration: none;">
+          <a href="/page/Payment_Page?plan=Basic&amount=199" style="text-decoration: none;">
           <button style="background-color: #218838; color: white; font-size: 16px; font-weight: bold; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; box-shadow: 1px 1px 5px rgba(0,0,0,0.2);">Subscribe</button>
           </a>
       </div>
@@ -127,7 +127,7 @@ test.describe('E2E Test Suite', () => {
           <li>✔ Free Custom Domain & Hosting</li>
           <li>✔ Advanced Analytics & Reports</li>
       </ul>
-      <a href="https://e2etest.saltcorn.co/page/Payment_Page?plan=Premium&amount=999" style="text-decoration: none;">
+      <a href="/page/Payment_Page?plan=Premium&amount=999" style="text-decoration: none;">
       <button style="background-color: #d39e00; color: white; font-size: 16px; font-weight: bold; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; box-shadow: 1px 1px 5px rgba(0,0,0,0.2);">Subscribe</button>
       </a>
   </div>
@@ -174,7 +174,7 @@ test.describe('E2E Test Suite', () => {
           <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); width: 600px; text-align: center;">
               <h2 style="color: #333; margin-bottom: 20px;">Saltcorn Secure Payment</h2>
   
-              <form style="width: 100%;" onsubmit="event.preventDefault(); window.location.href='https://e2etest.saltcorn.co/page/Thank_you';">
+              <form style="width: 100%;" onsubmit="event.preventDefault(); window.location.href='/page/Thank_you';">
     <!-- Cardholder Name -->
     <div style="display: flex; flex-direction: column; margin-bottom: 15px; text-align: left;">
         <label for="cardholder-name" style="font-weight: bold; margin-bottom: 5px;">Cardholder Name</label>
