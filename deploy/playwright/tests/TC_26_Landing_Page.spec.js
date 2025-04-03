@@ -175,27 +175,35 @@ test.describe('E2E Test Suite', () => {
               <h2 style="color: #333; margin-bottom: 20px;">Saltcorn Secure Payment</h2>
   
               <form style="width: 100%;" onsubmit="event.preventDefault(); window.location.href='https://e2etest.saltcorn.co/page/Thank_you';">
+    <!-- Cardholder Name -->
     <div style="display: flex; flex-direction: column; margin-bottom: 15px; text-align: left;">
         <label for="cardholder-name" style="font-weight: bold; margin-bottom: 5px;">Cardholder Name</label>
         <input type="text" id="cardholder-name" name="cardholder_name" placeholder="Card Holder Name" 
             style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
     </div>
   
-                  <div style="display: flex; flex-direction: column; margin-bottom: 15px; text-align: left;">
-                      <label style="font-weight: bold; margin-bottom: 5px;">Card Number</label>
-                      <input type="number" placeholder="1234567890123456" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
-                  </div>
-  
-                  <div style="display: flex; gap: 15px; margin-bottom: 15px; text-align: left;">
-                      <div style="display: flex; flex-direction: column; width: 50%;">
-                          <label style="font-weight: bold; margin-bottom: 5px;">Expiry Date</label>
-                          <input type="text" placeholder="MM/YY" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
-                      </div>
-  
-                      <div style="display: flex; flex-direction: column; width: 50%;">
-                          <label style="font-weight: bold; margin-bottom: 5px;">CVV</label>
-                          <input type="password" placeholder="123" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
-                      </div>
+                  <!-- Card Number -->
+    <div style="display: flex; flex-direction: column; margin-bottom: 15px; text-align: left;">
+        <label for="card-number" style="font-weight: bold; margin-bottom: 5px;">Card Number</label>
+        <input type="text" id="card-number" name="card_number" placeholder="1234 5678 9012 3456" 
+            style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
+    </div>
+
+    <!-- Expiry Date & CVV -->
+    <div style="display: flex; gap: 15px; margin-bottom: 15px; text-align: left;">
+        <!-- Expiry Date -->
+        <div style="display: flex; flex-direction: column; width: 50%;">
+            <label for="expiry-date" style="font-weight: bold; margin-bottom: 5px;">Expiry Date</label>
+            <input type="text" id="expiry-date" name="expiry_date" placeholder="MM/YY" 
+                style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
+        </div>
+
+        <!-- CVV -->
+        <div style="display: flex; flex-direction: column; width: 50%;">
+            <label for="cvv" style="font-weight: bold; margin-bottom: 5px;">CVV</label>
+            <input type="password" id="cvv" name="cvv" placeholder="123" 
+                style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;" required>
+        </div>
                   </div>
   
                   <button type="submit" style="background: #007bff; color: white; padding: 15px; width: 100%; border: none; border-radius: 5px; font-size: 18px; cursor: pointer; margin-top: 15px;">
