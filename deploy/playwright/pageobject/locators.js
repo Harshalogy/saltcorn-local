@@ -561,6 +561,10 @@ class PageLocators {
     this.installjson = 'form[action="/plugins/install/json"] >> button.store-install';
     this.installtabulator = 'form[action="/plugins/install/tabulator"] button:has-text("Install")';
     this.Installedthemelocator = 'a[href="/plugins?set=installed&amp;q=theme"]';
+    this.devicePreviewTabletBtn = 'button.device-preview-btn:nth-of-type(2)';
+    this.devicePreviewMobileBtn = 'button.device-preview-btn:nth-of-type(3)';
+    this.devicePreviewDesktopBtn = 'button.device-preview-btn:nth-of-type(1)';
+    this.devicePreviewCanvasWrapper = 'div.device-preview-canvas-wrapper';
     this.UploadImageSelector = 'table[accordiontitle="Select image"] tr:nth-child(2) select';
     this.UploadImageSave ='button.btn.btn-sm.btn-primary.builder-save';
     this.PageSave ='button.btn.btn-sm.btn-primary.builder-save';
@@ -776,6 +780,9 @@ class PageLocators {
     this.tablelocator = 'table tbody tr'; 
     this.tablebodylocator= 'div.filelist table tbody tr';
     this.actionselector="select.form-select"
+    this.userconfirmationcheckbox = 'div.form-check:has(label:has-text("User confirmation?")) input.form-check-input[name="block"]';
+    this.spinneronclickcheckbox = 'div.form-check:has(label:has-text("Spinner on click")) input.form-check-input[name="block"]';
+    this.deletebuttononclick = 'a.btn.btn-primary[onclick^="if(confirm(\'Are you sure?\'))ajax_post_btn(\'/delete/People/"]';
   }
 }
 

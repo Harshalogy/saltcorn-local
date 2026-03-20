@@ -377,7 +377,7 @@ test.describe.serial('E2E Test Suite', () => {
   });
 
   // add show link in list view
-  test('Add show link in list view by by connecting show view', async () => {
+  test('Add show link in list view by connecting show view', async () => {
     await functions.views();
     await page.waitForSelector(`a[href^="/view/NewView_List"]`);
     await page.click(`a[href^="/view/NewView_List"]`);

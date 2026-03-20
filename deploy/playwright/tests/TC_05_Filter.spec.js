@@ -169,7 +169,8 @@ test.describe.serial('E2E Test Suite', () => {
             const secondViewControl = (await viewControls.count()) >= 2 ? viewControls.nth(1) : viewControls.last();
             await secondViewControl.waitFor({ state: 'visible', timeout: 15000 });
             await secondViewControl.click({ force: true });
-            const filterOption = page.locator('[role="option"]').filter({ hasText: /Filter.*\[Filter on My_Table\]/ });
+            const filterOptions = page.locator('[role="option"]').filter({ hasText: /Filter.*\[Filter on My_Table\]/ });
+            const filterOption = filterOptions.first();
             await filterOption.waitFor({ state: 'visible', timeout: 10000 });
             await filterOption.click();
         });
@@ -200,7 +201,7 @@ test.describe.serial('E2E Test Suite', () => {
         await page.waitForSelector('a[href^="/viewedit/config/Filter"]', { timeout: 15000 });
         await page.click('a[href^="/viewedit/config/Filter"]');
         await customAssert('Remove status dropdown from view', async () => {
-            await page.click(pageobject.pageinputstatus);
+            await page.click(pageobject.target);
             await page.click(pageobject.deletebutton);
         });
         await customAssert('Add toggle for Member', async () => {

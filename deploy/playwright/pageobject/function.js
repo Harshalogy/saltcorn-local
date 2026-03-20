@@ -35,7 +35,19 @@ class PageFunctions {
 
   async fill_Text(selector, text) {
     await this.page.fill(selector, text, { timeout: 30000 });
+  }
 
+  async fill_CKEditor_Text(text) {
+    await this.page.waitForSelector('.settings-panel iframe, .builder-sidebar iframe', { timeout: 10000 });
+    const frame = this.page.frameLocator('.settings-panel iframe, .builder-sidebar iframe').first();
+    await frame.locator('body').waitFor({ state: 'visible', timeout: 5000 });
+    await frame.locator('body').click();
+    await this.page.waitForTimeout(300);
+    await this.page.keyboard.press('Control+A');
+    await this.page.keyboard.press('Backspace');
+    await this.page.waitForTimeout(200);
+    await this.page.keyboard.type(text, { delay: 30 });
+    await this.page.waitForTimeout(500);
   }
 
   async fill_Monaco_Text(locator, value) {
