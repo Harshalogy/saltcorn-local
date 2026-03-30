@@ -382,7 +382,8 @@ class PageLocators {
     this.Filterview = 'a[href="/view/Filter"]';
     this.statusDropdown = 'select.form-control.form-select#inputstatus[data-fieldname="status"]';
     this.viewsource = 'div.d-inline-flex.wrap-builder-elem[title="Embed a view"]';
-    this.View2Showdropdown = 'div[class*="view-selector"] .builder-select__control';
+    // this.View2Showdropdown = 'div[class*="view-selector"] .builder-select__control';
+    this.View2Showdropdown = 'div[class*="view-selector"] div[class*="control"]';
     this.FilterPage = 'a[href="/page/Filtered_page"]';
     this.pagestatusdropdown = '//select[@id="inputstatus"]';
     this.pageinputstatus = 'input[name="status"]';
