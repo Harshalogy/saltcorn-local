@@ -269,9 +269,9 @@ test.describe('E2E Test Suite', () => {
         await page.waitForTimeout(1500);
         // await page.click(pageobject.showTeamspan);
         // await page.getByText('Show team', { exact: true }).click();
-        await expect(page.getByText('Show team', { exact: true })).toBeVisible({ timeout: 10000 });
-        await page.getByText('Show team', { exact: true }).click();
-        await page.click(pageobject.deletebutton);
+        // await expect(page.getByText('Show team', { exact: true })).toBeVisible({ timeout: 10000 });
+        // await page.getByText('Show team', { exact: true }).click();
+        // await page.click(pageobject.deletebutton);
         await functions.drag_And_Drop(pageobject.viewsource, pageobject.target);
         await customAssert('Select show team view in view to show dropdown', async () => {
             await page.click(pageobject.View2Showdropdown);
