@@ -57,7 +57,7 @@ import {
   pathToState,
   displayType,
 } from "../../plugin-helper";
-import { PrimaryKeyValue } from "@saltcorn/db-common/dbtypes";
+import { PrimaryKeyValue, Row } from "@saltcorn/db-common/dbtypes";
 const {
   get_viewable_fields,
   parse_view_select,
@@ -1385,7 +1385,11 @@ const run = async (
 
   page_opts.transpose_width = (default_state || {}).transpose_width;
   page_opts.transpose_width_units = (default_state || {}).transpose_width_units;
-  page_opts.row_color_formula = (default_state || {})._row_color_formula;
+  if (default_state?._row_color_formula)
+    page_opts.row_color_function = get_expression_function(
+      default_state?._row_color_formula,
+      fields
+    );
 
   const [vpos, hpos] = (create_view_location || "Bottom left").split(" ");
   const istop = vpos === "Top";

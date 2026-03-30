@@ -7,6 +7,7 @@
  * @subcategory base-plugin
  */
 
+import { FieldLike } from "@saltcorn/types/base_types";
 import type { GenObj } from "@saltcorn/types/common_types";
 
 const moment = require("moment");
@@ -46,6 +47,7 @@ const { interpolate } = require("../utils");
 const { sqlFun, sqlBinOp } = require("@saltcorn/db-common/internal");
 const { select_by_code } = require("./fieldviews");
 const PlainDate = require("@saltcorn/plain-date");
+const db = require("../db");
 
 const isdef = (x: any) =>
   typeof x === "undefined" || x === null ? false : true;
@@ -1226,6 +1228,7 @@ const string = {
                   minlength: isdef(attrs.min_length) && attrs.min_length,
                   pattern: !!attrs.regexp && attrs.regexp,
                   autofocus: !!attrs.autofocus,
+                  autocomplete: attrs.autocomplete || undefined,
                   title:
                     !!attrs.re_invalid_error &&
                     !!attrs.regexp &&
@@ -1572,6 +1575,14 @@ const string = {
           label: "Visibility toggle",
           type: "Bool",
         },
+        {
+          name: "autocomplete",
+          label: "Autocomplete",
+          type: "String",
+          attributes: {
+            options: ["on", "off", "current-password", "new-password"],
+          },
+        },
       ],
       blockDisplay: true,
       description: "Password input type, characters are hidden when typed",
@@ -1593,6 +1604,10 @@ const string = {
           name: text_attr(nm),
           id: `input${text_attr(nm)}`,
           ...(isdef(v) && { value: text_attr(v) }),
+          autocomplete:
+            attrs?.autocomplete === false
+              ? "off"
+              : attrs?.autocomplete || undefined,
         });
         if (attrs?.visibility_toggle)
           return div(
@@ -1798,6 +1813,7 @@ const int = {
       blockDisplay: true,
       run: (v: any, req: any, attrs: any = {}) => {
         return div(
+          { style: "white-space: nowrap" },
           Array.from(
             { length: +attrs.max - +attrs.min + 1 },
             (_, i) => i + +attrs.min
@@ -2307,16 +2323,21 @@ const date = {
       description: "Display relative to current time (e.g. 2 hours ago)",
       run: (d: any, req: any) => {
         if (!d) return "";
+
+        const wrapit = (s: string) =>
+          d?.toLocaleString
+            ? span({ title: d.toLocaleString(locale(req)) }, s)
+            : s;
         const loc = locale(req);
         if (d instanceof PlainDate || d?.constructor?.name === "PlainDate") {
           const today = new PlainDate();
           if (today.equals(d)) return req.__("today");
           let m = moment(d.toDate());
-          if (loc) return text(m.locale(loc).fromNow());
-          else return text(m.fromNow());
+          if (loc) return wrapit(text(m.locale(loc).fromNow()));
+          else return wrapit(text(m.fromNow()));
         }
-        if (loc) return text(moment(d).locale(loc).fromNow());
-        else return text(moment(d).fromNow());
+        if (loc) return wrapit(text(moment(d).locale(loc).fromNow()));
+        else return wrapit(text(moment(d).fromNow()));
       },
     },
     /**
@@ -2430,6 +2451,8 @@ const date = {
    * @returns {object}
    */
   read: (v0: any, attrs: any) => {
+    const locale =
+      attrs?.locale || getState().getConfig("default_locale", "en");
     const readDate = (v: any) => {
       if (v instanceof Date && !isNaN(v as any)) return v;
       if (
@@ -2438,12 +2461,12 @@ const date = {
       )
         return v.toDate();
       if (typeof v === "string" || (typeof v === "number" && !isNaN(v))) {
-        if (attrs && attrs.locale && typeof v === "string") {
+        if (locale && typeof v === "string") {
           if (
             !v.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/) &&
             !v.match(/\d{4}-\d{2}-\d{2}/)
           ) {
-            const d = moment(v, "L LT", attrs.locale).toDate();
+            const d = moment(v, "L LT", locale).toDate();
             if (d instanceof Date && !isNaN(d as any)) return d;
           }
         }
@@ -2460,12 +2483,12 @@ const date = {
       )
         return v;
       if (typeof v === "string" || (typeof v === "number" && !isNaN(v))) {
-        if (attrs && attrs.locale && typeof v === "string") {
+        if (locale && typeof v === "string") {
           if (
             !v.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/) &&
             !v.match(/\d{4}-\d{2}-\d{2}/)
           ) {
-            const d = moment(v, "L LT", attrs.locale).toDate();
+            const d = moment(v, "L LT", locale).toDate();
             if (d instanceof Date && !isNaN(d as any))
               return new PlainDate(d as any);
           }
@@ -2487,6 +2510,17 @@ const date = {
    * @returns {boolean}
    */
   validate: () => (v: any) => v instanceof Date && !isNaN(v as any),
+  ...(db.isSQLite
+    ? {
+        readFromDB: (v: any, fld: FieldLike) =>
+          !v
+            ? null
+            : fld?.attributes?.day_only
+              ? new PlainDate(new Date(v))
+              : new Date(v),
+      }
+    : {}),
+
   /**
    * check if two date values are equal
    * @param a

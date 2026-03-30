@@ -154,6 +154,46 @@ describe("Misc List views", () => {
     expect(vres1).not.toContain("Herman Melville");
     expect(vres1).toContain("Leo Tolstoy");
   });
+  it("row color formula", async () => {
+    const view = await mkViewWithCfg({
+      configuration: {
+        default_state: { _row_color_formula: "pages<800 ? '#888':null" },
+        layout: {
+          besides: [
+            {
+              contents: {
+                type: "field",
+                block: false,
+                fieldview: "as_text",
+                textStyle: "",
+                field_name: "author",
+                configuration: {},
+              },
+              alignment: "Default",
+              col_width_units: "px",
+            },
+          ],
+          list_columns: true,
+        },
+        columns: [
+          {
+            type: "Field",
+            block: false,
+            fieldview: "as_text",
+            textStyle: "",
+            field_name: "author",
+            configuration: {},
+          },
+        ],
+      },
+    });
+    const vres1 = await view.run({}, mockReqRes);
+    expect(vres1).toContain(
+      '<tr data-row-id="2" style="background-color:#888">'
+    );
+    expect(vres1).toContain('<tr data-row-id="1">');
+    expect(vres1).toContain("Leo Tolstoy");
+  });
   it("list view with dropdown menu", async () => {
     const view = await mkViewWithCfg({
       configuration: {
@@ -1240,7 +1280,7 @@ describe("dual joinfielss with fieldviews", () => {
       table_id: Table.findOne("books")!.id,
       attributes: {},
     });
-    const vres1 = await view.run({}, mockReqRes);    
+    const vres1 = await view.run({}, mockReqRes);
     expect(vres1).toContain("FOO1BAR1");
   });
 });

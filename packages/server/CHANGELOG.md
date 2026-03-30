@@ -2,7 +2,25 @@
 
 ## 1.6.0 - In development
 
-* Elements can now be added to the top right (left in RTL languages) of cards, if a title is given.
+* In the `relative` fieldview for date fields, the full time is shown when on hover (using the title attribute)
+
+* Typescript types are now stripped from run_js_code actions and code pages (if on Node.js 22.13.0 or later)
+
+* If logged in as admin, a popover now appears on hovering over any embedded view with a link to configure
+
+* Click-to-edit on dates will use flatpickr if it is installed as a module
+
+* Stored calculated fields are now calculated on field creation
+
+* Many identifiers or entity names now appear with an icon to copy to clipboard on hover. This is also avaliable as an option on the as_text fieldview for String fields.
+
+* `assert` is now available in run_js_code actions. This is the strict version from Node's assert module.
+
+* Module reload and cache purge on SIGHUP
+
+* Default Edit forms are now more responsive: two column on desktop, one-column on mobile, with responsive label alignment
+
+* The Startup event is now run on backup restore.
 
 * List views now have a "Tree Field" option, for self-join keys, to show the rows as a tree as an indented indicator in the first column. If a tree field is chosen, sorting by joinfields and aggregations is disabled. 
 
@@ -10,13 +28,28 @@
 
 * Keyboard shortcuts can be defined for menu items
 
-* The builder is now based on craft.js 0.2.12 and the drag-and-drop is much improved
+* Builder updates:
+    * Based on craft.js 0.2.12
+    * Drag-and-drop is much improved, both in the canvas and in the layers
+    * Layers visual update, buttons for movement
+    * If the copilot is installed, elements can be generated or altered with LLMs
+    * The builder now works on touch devices, for example tablets
+    * Code expand popout for code inputs
+    * Device selector with mobile and tablet preview. Some settings can be set per-device.
+    * Individual columns are can now be moved and deleted.
+    * Elements can now be added to the top right (left in RTL languages) of cards, if a title is given.
+
 
 * The `res` is now available in actions, allowing you to, for instance, set cookies
 
 * Set additional workflow context in the builder when a workflow action is selected
 
-* Entities list: search modules and users, multiselect with delete, deep search option, keyboard shortcuts
+* Entities list: 
+    * search modules and users
+    * multiselect with delete
+    * pack download and role change
+    * deep search option
+    * keyboard shortcuts
 
 * Instances run in multi-node mode will now automatically select a leader to run the schedule
 
@@ -36,6 +69,12 @@
 * Mobile: iOS periodic/push-based sync. Improved mobile builder UI.
 
 * Reduce the number of network requests in Edit forms with complex logic
+
+### Security
+
+* Protection against SQL injection in the jsexprToSQL function. To our knowledge this can only be accessed by users with administrative privileges.
+
+* Tenants can only be created on subtenants if the role to create tenants is public. This avoids a confusing situation where the role check was not against root roles but against the subtenant roles when the tenant was created from a subtenants.
 
 ## 1.5.0 - Released 26 January 2026
 

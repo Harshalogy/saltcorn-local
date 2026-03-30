@@ -430,6 +430,8 @@ export async function init(mobileConfig) {
     await state.refresh_pages();
     await state.refresh_page_groups();
     await state.refresh_triggers();
+    await state.refresh_config();
+    await state.refresh_codepages();
     state.mobileConfig.localTableIds = await getTableIds(
       mobileConfig.localUserTables
     );

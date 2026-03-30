@@ -443,6 +443,12 @@ const permissions_settings_form = async (req) =>
       "min_role_search",
       {
         section_header: req.__("Development permissions"),
+        sublabel: div(
+          { class: "alert alert-danger fst-normal", role: "alert" },
+          req.__(
+            "Warning: any user given development permission can potentially introduce malicious code into the application."
+          )
+        ),
       },
       "min_role_inspect_tables",
       "min_role_edit_tables",
@@ -986,9 +992,7 @@ router.get(
               // list multiple tokens
               {
                 type: "container",
-                contents: (
-                  await user.listApiTokens()
-                ).length
+                contents: (await user.listApiTokens()).length
                   ? [
                       span(
                         { class: "me-1" },
@@ -1023,7 +1027,10 @@ router.get(
                                 `/useradmin/revoke-original-api-token/${user.id}`,
                                 req.__("Revoke"),
                                 req.csrfToken(),
-                                { btnClass: "btn-outline-danger btn-sm ms-3", req }
+                                {
+                                  btnClass: "btn-outline-danger btn-sm ms-3",
+                                  req,
+                                }
                               )
                             ),
                           ]
@@ -1044,7 +1051,10 @@ router.get(
                                 `/useradmin/revoke-original-api-token/${user.id}`,
                                 req.__("Revoke"),
                                 req.csrfToken(),
-                                { btnClass: "btn-outline-danger btn-sm ms-3", req }
+                                {
+                                  btnClass: "btn-outline-danger btn-sm ms-3",
+                                  req,
+                                }
                               )
                             ),
                           ]

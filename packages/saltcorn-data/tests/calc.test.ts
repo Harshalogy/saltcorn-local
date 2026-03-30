@@ -1306,6 +1306,11 @@ describe("jsexprToSQL", () => {
       "not (((name)=('roderick'))and(phone is null))"
     );
   });
+  it("does not allow SQL injection in literals", () => {
+    expect(jsexprToSQL(`name === "test' OR '1'='1"`)).toEqual(
+      "(name)=('test'' OR ''1''=''1')"
+    );
+  });
 });
 describe("mergeIntoWhere", () => {
   it("merges", () => {

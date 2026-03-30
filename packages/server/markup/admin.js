@@ -502,7 +502,12 @@ const config_fields_form = async ({
       fields.push({
         input_type: "section_header",
         label: req.__(name0.section_header),
-        sublabel: name0.sublabel ? req.__(name0.sublabel) : undefined,
+        sublabel:
+          typeof name0.sublabel === "string" && name0.sublabel.includes("<div")
+            ? name0.sublabel
+            : name0.sublabel
+              ? req.__(name0.sublabel)
+              : undefined,
       });
       continue;
     }

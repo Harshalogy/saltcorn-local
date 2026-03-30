@@ -16,3 +16,7 @@ export async function mkdir(
 }
 
 export async function unlink(path: string): Promise<void> {}
+
+export async function readdir(path: string, options?: any): Promise<string[]> {
+  return [];
+}

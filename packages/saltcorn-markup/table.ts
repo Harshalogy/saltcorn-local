@@ -175,7 +175,7 @@ namespace TableExports {
     header_filters_toggle?: boolean;
     responsiveCollapse?: boolean;
     collapse_breakpoint_px?: number;
-    row_color_formula?: string;
+    row_color_function?: Function;
     level_indicator?: boolean;
   };
 }
@@ -228,17 +228,12 @@ const mkTable = (
   opts: OptsParams | any = {}
 ): string => {
   const pk_name = opts.pk_name || "id";
-  if (opts.row_color_formula && !(opts as any)._rowColorFn) {
-    (opts as any)._rowColorFn = new Function(
-      "row",
-      "with(row){return (" + opts.row_color_formula + ");}"
-    );
-  }
+
   const val_row = (v: any) => {
     let rowColor: string | undefined;
-    if (opts.row_color_formula) {
+    if (opts.row_color_function) {
       try {
-        rowColor = (opts as any)._rowColorFn?.(v);
+        rowColor = (opts as any).row_color_function?.(v);
       } catch {
         rowColor = undefined;
       }
@@ -266,7 +261,7 @@ const mkTable = (
             ...(hdr.align ? { class: `text-align-${hdr.align}` } : {}),
           },
           hdr_ix == 0 && opts.level_indicator && v._level
-            ? "&nbsp;&nbsp;".repeat(v._level)+"└&nbsp;&nbsp;"
+            ? "&nbsp;&nbsp;".repeat(v._level) + "└&nbsp;&nbsp;"
             : null,
           cellWrapper(
             typeof hdr.key === "string" ? text(v[hdr.key]) : hdr.key(v)

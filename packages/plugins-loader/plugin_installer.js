@@ -19,6 +19,7 @@ const path = require("path");
 const staticDeps = [
   "@saltcorn/markup",
   "@saltcorn/data",
+  "@saltcorn/admin-models",
   "@saltcorn/postgres",
   "jest",
 ];

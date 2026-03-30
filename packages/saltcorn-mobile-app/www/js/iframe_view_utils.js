@@ -1,5 +1,5 @@
 /*eslint-env browser*/
-/*global $, KTDrawer, reload_embedded_view, submitWithEmptyAction, is_paging_param, bootstrap, common_done, unique_field_from_rows, inline_submit_success, get_current_state_url, initialize_page */
+/*global $, KTDrawer, reload_embedded_view, submitWithEmptyAction, is_paging_param, bootstrap, common_done, unique_field_from_rows, inline_submit_success, get_current_state_url, initialize_page, reset_spinners */
 
 function combineFormAndQuery(form, query) {
   let paramsList = [];
@@ -995,6 +995,7 @@ function removeLoadSpinner() {
       if (count === 0) spinner.remove();
       else spinner.attr("spinner-count", count);
     }
+    reset_spinners();
   }
 }
 

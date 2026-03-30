@@ -150,8 +150,15 @@ function jsexprToSQL(expression: string, extraCtx: any = {}): String {
           return name;
         },
         Literal({ value }: { value: ExtendedNode }) {
-          if (typeof value == "string") return `'${value}'`;
-          return `${value}`;
+          if (typeof value === "string")
+            return `'${(value as string).replace(/'/g, "''")}'`;
+          if (
+            value === null ||
+            typeof value === "number" ||
+            typeof value === "boolean"
+          )
+            return `${value}`;
+          throw new Error("Unknown literal type");
         },
       })[node.type](node);
     // @ts-ignore

@@ -59,7 +59,8 @@ import { tz } from "moment-timezone";
 import { join } from "path";
 import { existsSync } from "fs";
 import { writeFile, mkdir } from "fs/promises";
-import { runInContext, createContext } from "vm";
+const { VM } = require("vm2");
+const oldVm = require("vm");
 import faIcons from "./fa5-icons";
 import { AbstractTable } from "@saltcorn/types/model-abstracts/abstract_table";
 import { AbstractRole } from "@saltcorn/types/model-abstracts/abstract_role";
@@ -492,7 +493,7 @@ class State {
       else console.log(...msgs);
       const msg = msgs
         .map((m) =>
-          typeof m === "string" ? m : m.toString ? m.toString() : `${m}`
+          typeof m === "string" ? m : m?.toString ? m.toString() : `${m}`
         )
         .join(" ");
       this.emitLog(ten, min_level, msg);
@@ -1243,7 +1244,6 @@ class State {
             this.isFixedConfig(k) ? undefined : this.getConfig(k),
         };
         const funCtxKeys = new Set(Object.keys(myContext));
-        const sandbox = createContext(myContext);
         let stripTypes = (s: string) => s;
         try {
           const { stripTypeScriptTypes } = require("module");
@@ -1253,14 +1253,23 @@ class State {
         }
         const codeStr = stripTypes(Object.values(code_pages).join(";\n"));
 
-        runInContext(codeStr, sandbox);
+        let sandboxCtx: any;
+        if (isNode()) {
+          const vm = new VM({ sandbox: myContext, eval: false, wasm: false });
+          vm.run(codeStr);
+          sandboxCtx = vm.sandbox;
+        } else {
+          // vm2 is not available on mobile (Capacitor)
+          sandboxCtx = oldVm.createContext(myContext);
+          oldVm.runInContext(codeStr, sandboxCtx);
+        }
         for (const f of asyncFs) {
           await f();
         }
         this.codepage_context = {};
-        Object.keys(sandbox).forEach((k) => {
+        Object.keys(sandboxCtx).forEach((k) => {
           if (!funCtxKeys.has(k)) {
-            this.codepage_context[k] = sandbox[k];
+            this.codepage_context[k] = sandboxCtx[k];
           }
         });
       } catch (e: any) {

@@ -1,3 +1,6 @@
+import * as promises from "./fs/promises";
+export { promises };
+
 export function createReadStream(path: string, options: any) {}
 
 export function writeFileSync(file: string, data: string, options?: any): void {

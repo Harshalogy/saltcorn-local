@@ -248,8 +248,13 @@ class Trigger implements AbstractTrigger {
         table = Table.findOne({ name: channel });
         findArgs.table_id = table.id;
       } else if (channel) findArgs.channel = { in: ["", channel] };
+      const virtual_triggers = getState().virtual_triggers.filter(
+        (tr: Trigger) =>
+          eventType === tr.when_trigger &&
+          (tr.channel === channel || !tr.channel)
+      );
 
-      const triggers = Trigger.find(findArgs);
+      const triggers = [...Trigger.find(findArgs), ...virtual_triggers];
 
       for (const trigger of triggers) {
         state.log(4, `Trigger run ${trigger.name} ${trigger.action} `);
@@ -312,16 +317,16 @@ class Trigger implements AbstractTrigger {
               }
             }
             const action = state.actions[trigger.action];
-            action &&
-              action.run &&
-              (await action.run({
+            if (action?.run)
+              await action.run({
                 table,
                 channel,
                 user,
                 configuration: trigger.configuration,
                 row: payload,
                 ...(payload || {}),
-              }));
+              });
+            else if (trigger.run) await trigger.run(payload);
           }
         } catch (e) {
           Crash.create(e, {
