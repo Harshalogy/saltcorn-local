@@ -198,7 +198,6 @@ test.describe('E2E Test Suite', () => {
         await page.click(pageobject.nextoption);
         await page.waitForTimeout(500);
         await page.click(pageobject.finishbuttonprimary);
-
         await functions.views();
         await page.click(pageobject.PeopleList);
         await page.click(pageobject.showfieldlink);
