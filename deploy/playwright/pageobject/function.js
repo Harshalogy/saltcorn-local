@@ -935,7 +935,10 @@ class PageFunctions {
       await expect(tabsContainer).toBeVisible({ timeout: 15000 });
 
       const tabLinks = this.page.locator(this.locators.siteStructureTabLinks);
-      await expect(tabLinks).toHaveCount(expectedTabs.length);
+      const actualTabTexts = (await tabLinks.allTextContents()).map((txt) => txt.trim());
+      const expectedTabTexts = expectedTabs.map((tab) => tab.label);
+      expect(actualTabTexts).toEqual(expectedTabTexts);
+      Logger?.info?.(`Site structure tabs: ${actualTabTexts.join(', ')}`);
 
       for (const t of expectedTabs) {
         const link = this.page.locator(`${this.locators.siteStructureTabStrip} a[href="${t.href}"]`).first();
