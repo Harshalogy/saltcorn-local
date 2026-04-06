@@ -784,6 +784,132 @@ class PageLocators {
     this.userconfirmationcheckbox = 'div.form-check:has(label:has-text("User confirmation?")) input.form-check-input[name="block"]';
     this.spinneronclickcheckbox = 'div.form-check:has(label:has-text("Spinner on click")) input.form-check-input[name="block"]';
     this.deletebuttononclick = 'a.btn.btn-primary[onclick^="if(confirm(\'Are you sure?\'))ajax_post_btn(\'/delete/People/"]';
+    this.collapseSettingsShown = '#collapseSettings.collapse.show';
+    this.registryEntitiesHeader = 'div.col-3 div.card.mt-4.shadow span.card-header h5';
+    this.registryRightPanelBody = 'div.col-9 .card.mt-4.shadow .card-body';
+    this.kateTreeSummary = 'ul.katetree summary';
+    this.siteStructureTabStrip = 'ul.nav.nav-pills.plugin-section';
+    this.siteStructureTabLinks = 'ul.nav.nav-pills.plugin-section a';
+    this.activeBreadcrumb = 'ol.breadcrumb li.breadcrumb-item.active[aria-current="page"]';
+    this.collapseSettings = '#collapseSettings';
+    this.settingsNavLink = '#accordionSidebar a.nav-link:has-text("Settings")';
+    this.siteStructureScoped = '#collapseSettings a.collapse-item[href="/site-structure"]';
+    this.siteStructureFallback = 'a.collapse-item[href="/site-structure"]';
+    this.fileslocator = 'a.nav-link:has-text("Files")';
+    this.storagelocator = 'a[href="/files/storage"]';
+    this.Filesettinglocator = 'a[href="/files/settings"]';
+    this.trigerslocator = 'a.nav-link:has-text("Triggers")';
+    this.Customlocator = 'a[href="/eventlog/custom"]';
+    this.logsettinglocator = 'a[href="/eventlog/settings"]';
+    this.Eventloglocator = 'a[href="/eventlog"]';
+    this.discriptiontext = '#inputdescription';
+    this.viewtabledropdown = '#inputtable_name';
+    this.choosefilebutton = '#inputfile';
+    this.createviewfromtable = '#table-views > div > a';
+    this.textstyle = '.form-control form-select';
+    this.fielddropdown = 'select.field';
+    this.fieldViewdropdown = 'select.fieldview';
+    this.Toolbardropdown = 'select.field-toolbar';
+    this.breadcrumb = 'ol.breadcrumb';
+    this.settingsBreadcrumbLink = 'ol.breadcrumb a[href="/settings"]';
+    this.cardShadow = 'div.card.mt-4.shadow';
+    this.cardHeaderH5 = 'div.card.mt-4.shadow span.card-header h5';
+    this.tableResponsiveSm = 'div.table-responsive table.table.table-sm';
+    this.tableHeadCells = 'thead th';
+    this.tableBodyRows = 'tbody tr';
+    this.submitButtonGeneric = 'button[type="submit"]';
+    this.searchLink = 'a[href="/search"]';
+    this.saveButtonByText = 'button:has-text("Save"), button[type="submit"]:has-text("Save")';
+
+    // TC_40 registry editor
+    this.fileInput = 'input[type="file"]';
+    this.registryPageHeaderGeneric = 'h1, h2, h3, h4, h5, .card-header, .page-header';
+    this.kateTreeViewsDetails = 'ul.katetree > li details:has(summary:has-text("Views"))';
+    this.kateTreeViewsSummary = 'ul.katetree > li details:has(summary:has-text("Views")) summary';
+    this.kateTreePeopleListLink = 'ul.katetree a[href*="ename=People_list"]';
+    this.registryEntitiesForm = 'form[action="/registry-editor"]';
+    this.registryEntitiesSearchInput = 'form[action="/registry-editor"] input[name="q"]';
+    this.registryEntitiesSearchSubmit = 'form[action="/registry-editor"] button[type="submit"]';
+    this.kateTreeVisibleAnchors = 'ul.katetree a:visible';
+    this.kateTreeTimezoneLink = 'ul.katetree a[href*="ename=timezone"]';
+    this.configurePeopleListLink = 'a[href="/viewedit/config/People_list"]';
+    this.saltcornBuilder = '#saltcorn-builder';
+    this.breadcrumbNav = 'nav[aria-label="breadcrumb"]';
+    this.registryEditorContainer = '.monaco-editor, .CodeMirror, pre, code';
+
+    // TC_41 menu/search/languages/pagegroups/tags/diagram/registry
+    this.menuForm = 'form#menuForm';
+    this.menuTypeSelect = 'select#inputtype';
+    this.menuTypeOptions = 'select#inputtype option';
+    this.menuUpdateBtn = '#btnUpdate';
+    this.menuAddBtn = '#btnAdd';
+    this.menuRecalcBtn = '#btnRecalc';
+    this.menuTree = 'ul#myEditor';
+    this.menuTreeTxt = '#myEditor span.txt';
+    this.menuIconBtn = 'button#myEditor_icon';
+    this.menuLabelType = 'label[for="inputtype"]';
+    this.menuLabelText = 'label[for="inputtext"]';
+    this.menuLabelTooltip = 'label[for="inputtooltip"]';
+    this.menuLabelMinRole = 'label[for="inputmin_role"]';
+    this.menuLabelMaxRole = 'label[for="inputmax_role"]';
+    this.menuLabelShowIf = 'label[for="inputshowif"]';
+    this.menuLabelDisableMobile = 'label[for="inputdisable_on_mobile"]';
+    this.menuLabelTargetBlank = 'label[for="inputtarget_blank"]';
+    this.menuLabelModal = 'label[for="inputin_modal"]';
+    this.menuLabelStyle = 'label[for="inputstyle"]';
+    this.menuLabelShortcut = 'label[for="inputshortcut"]';
+    this.menuLabelLocation = 'label[for="inputlocation"]';
+    this.menuMinRoleAdmin = '#inputmin_role option[value="1"]';
+    this.menuMaxRolePublic = '#inputmax_role option[value="100"]';
+    this.pagegroupsStrategy = '#inputmissing_screen_info_strategy';
+    this.pagegroupsStrategyGuess = '#inputmissing_screen_info_strategy option[value="guess_from_user_agent"]';
+    this.pagegroupsStrategyReload = '#inputmissing_screen_info_strategy option[value="reload"]';
+    this.pagegroupsAddDevice = 'a[href="settings/add-device"]';
+    this.searchConfigForm = 'form[action="/search/config"]';
+    this.searchTableDescription = '#inputsearch_table_description';
+    this.searchResultsDecoration = '#inputsearch_results_decoration';
+    this.searchResultsDecorationOptions = '#inputsearch_results_decoration option';
+    this.searchResultsCards = '#inputsearch_results_decoration option[value="Cards"]';
+    this.searchResultsTabs = '#inputsearch_results_decoration option[value="Tabs"]';
+    this.searchDisableFts = '#inputsearch_disable_fts';
+
+    this.languagesAddLink = 'a[href="/site-structure/localizer/add-lang"]';
+    this.languagesUploadLabel = 'label[for="upload_langpack"]';
+    this.languagesUploadInput = '#upload_langpack';
+    this.languagesUploadForm = 'form[action="/site-structure/localizer/upload-language-pack"]';
+    this.languageNameInput = '#inputname';
+    this.languageLocaleInput = '#inputlocale';
+    this.languagesDeleteAction = 'a:has-text("Delete"), button:has-text("Delete")';
+
+    this.pagegroupsStrategy = '#inputmissing_screen_info_strategy';
+    this.pagegroupsStrategyGuess = '#inputmissing_screen_info_strategy option[value="guess_from_user_agent"]';
+    this.pagegroupsStrategyReload = '#inputmissing_screen_info_strategy option[value="reload"]';
+    this.pagegroupsAddDevice = 'a[href="settings/add-device"]';
+
+    this.tagsCreateLink = 'a[href="/tag/new"]';
+
+    this.diagramCanvas = '#cy';
+    this.diagramAllEntitiesBtn = 'button:has-text("All entities")';
+    this.diagramShowViews = '#showViewsId';
+    this.diagramShowPages = '#showPagesId';
+    this.diagramShowTables = '#showTablesId';
+    this.diagramShowTriggers = '#showTriggerId';
+    this.diagramLabelShowViews = 'label[for="showViewsId"]';
+    this.diagramLabelShowPages = 'label[for="showPagesId"]';
+    this.diagramLabelShowTables = 'label[for="showTablesId"]';
+    this.diagramLabelShowTriggers = 'label[for="showTriggerId"]';
+    this.diagramNewBtn = 'button:has-text("New")';
+    this.diagramNewViewLink = '.dropdown-menu a[href*="/viewedit/new?on_done_redirect=diagram"]';
+    this.diagramNewPageLink = '.dropdown-menu a[href*="/pageedit/new?on_done_redirect=diagram"]';
+    this.diagramNewTableLink = '.dropdown-menu a[href="/table/new"]';
+    this.diagramNewTriggerLink = '.dropdown-menu a[href*="/actions/new?on_done_redirect=diagram"]';
+    this.diagramTagsBtn = 'button:has-text("Tags")';
+    this.diagramNoTags = '#noTagsId';
+    this.diagramAuroraTagFilter = '#tagFilter_box_Aurora_id';
+    this.diagramTagNewLink = '.dropdown-menu a[href="/tag/new"]';
+    this.diagramRefreshBtn = 'button:has(i.fas.fa-sync-alt)';
+    this.diagramCameraBtn = 'button:has(i.fas.fa-camera)';
+
   }
 }
 
