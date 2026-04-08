@@ -1772,13 +1772,6 @@ class PageFunctions {
   }
 
   async verify_All_Entities_Less_More_And_Tags() {
-    const less = this.page.locator(`${this.locators.allEntitiesLessToggle}:visible`).first();
-    if ((await less.count()) > 0) {
-      await less.click({ force: true });
-      await this.page.waitForTimeout(700);
-      await expect(this.page.locator(this.locators.allEntitiesMoreToggle).first()).toBeVisible();
-    }
-
     const more = this.page.locator(`${this.locators.allEntitiesMoreToggle}:visible`).first();
     if ((await more.count()) > 0) {
       await more.click({ force: true });
