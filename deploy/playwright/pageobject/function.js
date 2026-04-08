@@ -1662,6 +1662,260 @@ class PageFunctions {
     await this.page.click(this.locators.Events);
   }
 
+  async open_All_Entities_From_Settings(baseURL, Logger) {
+    Logger?.info?.('Action: open left panel Settings');
+    await this.navigate_To_Settings();
+
+    const expanded = await this.page.locator(this.locators.settingsCollapsePanelShown).count();
+    if (!expanded) {
+      await this.page.locator(this.locators.settingsSidebarLink).first().click({ force: true });
+    }
+
+    Logger?.info?.('Action: click left panel All entities');
+    await this.page.locator(this.locators.allEntitiesSidebarLink).first().click({ force: true });
+    const routed = await this.page.waitForURL(/\/entities(\?|$)/, { timeout: 7000 }).then(() => true).catch(() => false);
+    if (!routed) {
+      Logger?.info?.('Fallback: hard navigate to /entities');
+      await this.page.goto(`${baseURL}/entities`, { waitUntil: 'domcontentloaded' });
+    }
+    await expect(this.page).toHaveURL(/\/entities(\?|$)/);
+  }
+
+  async search_All_Entities(searchText) {
+    await this.fill_Text(this.locators.allEntitiesSearchInput, searchText);
+    await this.page.waitForTimeout(800);
+  }
+
+  async clear_All_Entities_Search() {
+    await this.fill_Text(this.locators.allEntitiesSearchInput, '');
+    await this.page.waitForTimeout(700);
+  }
+
+  async set_All_Entities_Deep_Search(enabled) {
+    const deepSearchInput = this.page.locator(this.locators.allEntitiesDeepSearchInput).first();
+    const deepSearchLabel = this.page.locator(this.locators.allEntitiesDeepSearchLabel).first();
+    const hasInput = (await deepSearchInput.count()) > 0;
+    const hasLabel = (await deepSearchLabel.count()) > 0;
+    if (!hasInput && !hasLabel) return false;
+
+    if (hasInput) {
+      if (enabled) {
+        await deepSearchInput.check({ force: true }).catch(async () => {
+          if (hasLabel) await deepSearchLabel.click({ force: true });
+        });
+      } else {
+        await deepSearchInput.uncheck({ force: true }).catch(async () => {
+          if (hasLabel) await deepSearchLabel.click({ force: true });
+        });
+      }
+    } else if (hasLabel) {
+      await deepSearchLabel.click({ force: true });
+    }
+    return true;
+  }
+
+  async assert_All_Entities_Landing_Controls() {
+    await customAssert('All entities page key controls should be visible', async () => {
+      await expect(this.page.locator(this.locators.allEntitiesSearchInput).first()).toBeVisible();
+      await expect(this.page.locator(this.locators.allEntitiesHeader).first()).toBeVisible();
+      await expect(this.page.locator(this.locators.allEntitiesTypesLabel).first()).toBeVisible();
+      await expect(this.page.locator(this.locators.allEntitiesTagsLabel).first()).toBeVisible();
+    });
+  }
+
+  async verify_All_Entities_Search_Flow() {
+    await this.set_All_Entities_Deep_Search(true);
+    await this.search_All_Entities('user');
+    await customAssert('URL should include valid search query', async () => {
+      await expect(this.page).toHaveURL(/\/entities.*q=user/);
+    });
+
+    await this.search_All_Entities('invalid_zzzz_12345');
+    await customAssert('URL should include invalid search query', async () => {
+      await expect(this.page).toHaveURL(/\/entities.*q=invalid_zzzz_12345/);
+    });
+
+    await this.clear_All_Entities_Search();
+    await this.set_All_Entities_Deep_Search(false);
+    await customAssert('Should remain on entities page after search reset', async () => {
+      await expect(this.page).toHaveURL(/\/entities(\?|$)/);
+    });
+  }
+
+  async verify_All_Entities_Type_Chip_Navigation(baseURL, Logger, typeCases) {
+    for (const tc of typeCases) {
+      Logger?.info?.(`Action: click ${tc.label} chip`);
+      const chip = this.page.locator(`button:has-text("${tc.label}"), a:has-text("${tc.label}")`).first();
+      if ((await chip.count()) === 0 && (tc.label === 'Users' || tc.label === 'Modules' || tc.label === 'Triggers')) {
+        const more = this.page.locator(this.locators.allEntitiesMoreToggle).first();
+        if ((await more.count()) > 0) await more.click({ force: true });
+      }
+
+      await chip.click({ force: true });
+      await this.page.waitForLoadState('domcontentloaded');
+      await this.page.waitForTimeout(700);
+      await customAssert(`${tc.label} should navigate to expected URL`, async () => {
+        await expect(this.page).toHaveURL(tc.url);
+      });
+
+      if (tc.label !== 'Triggers') {
+        await this.page.goBack({ waitUntil: 'domcontentloaded' });
+        await this.page.waitForTimeout(700);
+      } else {
+        await this.page.goto(`${baseURL}/entities`, { waitUntil: 'domcontentloaded' });
+      }
+
+      await customAssert(`After ${tc.label}, should return to entities page`, async () => {
+        await expect(this.page).toHaveURL(/\/entities(\?|$)/);
+      });
+    }
+  }
+
+  async verify_All_Entities_Less_More_And_Tags() {
+    const less = this.page.locator(`${this.locators.allEntitiesLessToggle}:visible`).first();
+    if ((await less.count()) > 0) {
+      await less.click({ force: true });
+      await this.page.waitForTimeout(700);
+      await expect(this.page.locator(this.locators.allEntitiesMoreToggle).first()).toBeVisible();
+    }
+
+    const more = this.page.locator(`${this.locators.allEntitiesMoreToggle}:visible`).first();
+    if ((await more.count()) > 0) {
+      await more.click({ force: true });
+      await this.page.waitForTimeout(700);
+      await expect(this.page.locator(this.locators.allEntitiesUsersChip).first()).toHaveCount(1);
+      await expect(this.page.locator(this.locators.allEntitiesModulesChip).first()).toHaveCount(1);
+    }
+
+    const tagButtons = this.page.locator(this.locators.allEntitiesTagChipButtons).filter({ hasText: /^(Aurora|e2e_tag_)/ });
+    const tagCount = await tagButtons.count();
+    expect(tagCount).toBeGreaterThan(0);
+    if (tagCount > 1) {
+      await tagButtons.nth(0).click({ force: true });
+      await this.page.waitForTimeout(600);
+      await tagButtons.nth(1).click({ force: true });
+      await this.page.waitForTimeout(600);
+    }
+    await expect(this.page).toHaveURL(/\/entities(\?|$)/);
+  }
+
+  async verify_All_Entities_User_Row_Actions(baseURL) {
+    await this.page.goto(`${baseURL}/entities?extended=on&tables=on&q=users`, { waitUntil: 'domcontentloaded' });
+    await expect(this.page).toHaveURL(/\/entities\?extended=on&tables=on&q=users/);
+
+    const usersRow = this.page.locator(this.locators.allEntitiesTableRows).filter({
+      has: this.page.getByRole('link', { name: 'users' }).first()
+    }).first();
+    await expect(usersRow).toBeVisible({ timeout: 30000 });
+
+    const actionsBtn = usersRow.locator(this.locators.allEntitiesActionsButtonInRow).first();
+    await actionsBtn.scrollIntoViewIfNeeded();
+    await this.page.keyboard.press('Escape').catch(async () => { });
+    await actionsBtn.click({ force: true });
+    await this.page.waitForTimeout(700);
+
+    await expect(this.page.locator(this.locators.allEntitiesActionsMenu)).toBeVisible();
+    await expect(this.page.locator(this.locators.allEntitiesActionRecalculate)).toBeVisible();
+    await expect(this.page.locator(this.locators.allEntitiesActionDeleteRows)).toBeVisible();
+    await expect(this.page.locator(this.locators.allEntitiesActionRegistryEditor)).toBeVisible();
+  }
+
+  async create_Table_From_All_Entities(tableName) {
+    const createTableBtn = this.page.locator(this.locators.allEntitiesCreateTable).first();
+    await createTableBtn.scrollIntoViewIfNeeded();
+    await createTableBtn.click({ force: true });
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(700);
+    await expect(this.page).toHaveURL(/\/table\/new\/?(\?|$)/);
+    await this.fill_Text(this.locators.InputName, tableName);
+    await this.submit();
+    await this.page.waitForLoadState('domcontentloaded');
+  }
+
+  async create_View_From_All_Entities(viewName, description = 'e2e view from all entities') {
+    const createViewBtn = this.page.locator(this.locators.allEntitiesCreateView).first();
+    await createViewBtn.scrollIntoViewIfNeeded();
+    await createViewBtn.click({ force: true });
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(700);
+    await expect(this.page).toHaveURL(/\/viewedit\/new(\?|$)/);
+
+    await this.fill_Text(this.locators.InputName, viewName);
+    if ((await this.page.locator(this.locators.discriptiontext).count()) > 0) {
+      await this.fill_Text(this.locators.discriptiontext, description);
+    }
+    if ((await this.page.locator(this.locators.viewtabledropdown).count()) > 0) {
+      await this.page.locator(this.locators.viewtabledropdown).selectOption({ label: 'users' }).catch(async () => {
+        await this.page.locator(this.locators.viewtabledropdown).selectOption({ index: 0 });
+      });
+    }
+    await this.submit();
+    await this.page.waitForLoadState('domcontentloaded');
+  }
+
+  async create_Page_From_All_Entities(pageName) {
+    const createPageBtn = this.page.locator(this.locators.allEntitiesCreatePage).first();
+    await createPageBtn.scrollIntoViewIfNeeded();
+    await createPageBtn.click({ force: true });
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(700);
+    await expect(this.page).toHaveURL(/\/pageedit\/new(\?|$)/);
+
+    const pageNameInput = this.page.locator(this.locators.inputpagename).first();
+    if ((await pageNameInput.count()) > 0) await this.fill_Text(this.locators.inputpagename, pageName);
+    else await this.fill_Text(this.locators.InputName, pageName);
+
+    await this.submit();
+    await this.page.waitForLoadState('domcontentloaded');
+  }
+
+  async create_Trigger_From_All_Entities(triggerName) {
+    const createTriggerBtn = this.page.locator(this.locators.allEntitiesCreateTrigger).first();
+    await createTriggerBtn.scrollIntoViewIfNeeded();
+    await createTriggerBtn.click({ force: true });
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForTimeout(700);
+    await expect(this.page).toHaveURL(/\/actions\/new(\?|$)/);
+
+    await this.fill_Text(this.locators.InputName, triggerName);
+    if ((await this.page.locator(this.locators.whentrigger).count()) > 0) {
+      await this.page.locator(this.locators.whentrigger).selectOption({ index: 1 }).catch(async () => { });
+    }
+    if ((await this.page.locator(this.locators.inputtableid).count()) > 0) {
+      await this.page.locator(this.locators.inputtableid).selectOption({ index: 1 }).catch(async () => { });
+    }
+    if ((await this.page.locator(this.locators.inputaction).count()) > 0) {
+      await this.page.locator(this.locators.inputaction).selectOption({ index: 1 }).catch(async () => { });
+    }
+    await this.submit();
+    await this.page.waitForLoadState('domcontentloaded');
+  }
+
+  async verify_Entity_Is_Visible_In_List(listPath, entityName, assertionMessage = 'Entity should be visible in list') {
+    await this.page.goto(listPath, { waitUntil: 'domcontentloaded' });
+    await customAssert(assertionMessage, async () => {
+      await expect(this.page.getByText(entityName).first()).toBeVisible({ timeout: 30000 });
+    });
+  }
+
+  async verify_Entity_Is_Searchable_In_All_Entities(baseURL, entityName, Logger) {
+    await this.open_All_Entities_From_Settings(baseURL, Logger);
+    await this.search_All_Entities(entityName);
+    await customAssert('Entity should be searchable in All entities', async () => {
+      await expect(this.page.getByText(entityName).first()).toBeVisible({ timeout: 30000 });
+    });
+  }
+
+  async open_Views_From_All_Entities() {
+    await this.page.locator(this.locators.allEntitiesViewsChip).first().click({ force: true });
+    await this.page.waitForLoadState('domcontentloaded');
+  }
+
+  async assert_Views_List_Loaded() {
+    await expect(this.page).toHaveURL(/\/viewedit(\?|$)/);
+    await expect(this.page.locator(this.locators.primaryTable).first()).toBeVisible({ timeout: 30000 });
+  }
+
   async takeDebugScreenshot(name, Logger, debugDir = 'test-results') {
     if (!fs.existsSync(debugDir)) fs.mkdirSync(debugDir, { recursive: true });
     const path = `${debugDir}/${name}_${Date.now()}.png`;

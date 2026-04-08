@@ -910,6 +910,34 @@ class PageLocators {
     this.diagramRefreshBtn = 'button:has(i.fas.fa-sync-alt)';
     this.diagramCameraBtn = 'button:has(i.fas.fa-camera)';
 
+    // TC_42 all entities
+    this.settingsSidebarLink = '#accordionSidebar a.nav-link:has-text("Settings")';
+    this.settingsCollapsePanelShown = '#collapseSettings.collapse.show';
+    this.allEntitiesSidebarLink = '#collapseSettings a.collapse-item[href="/entities"]';
+    this.allEntitiesHeader = 'text=All entities';
+    this.allEntitiesTypesLabel = 'text=Types:';
+    this.allEntitiesTagsLabel = 'text=Tags:';
+    this.allEntitiesSearchInput = 'input[placeholder*="Search entities by name or type"]';
+    this.allEntitiesDeepSearchInput = 'input#inputdeep_search, input[name="deep_search"]';
+    this.allEntitiesDeepSearchLabel = 'text=Deep search';
+    this.allEntitiesMoreToggle = 'button:has-text("More..."), a:has-text("More...")';
+    this.allEntitiesLessToggle = 'button:has-text("Less..."), a:has-text("Less...")';
+    this.allEntitiesCreateTable = 'button:has-text("Create table"), a:has-text("Create table")';
+    this.allEntitiesCreateView = 'button:has-text("Create view"), a:has-text("Create view")';
+    this.allEntitiesCreatePage = 'button:has-text("Create page"), a:has-text("Create page")';
+    this.allEntitiesCreateTrigger = 'button:has-text("Create trigger"), a:has-text("Create trigger")';
+    this.allEntitiesTagChipButtons = 'button.btn.btn-outline-secondary.btn-sm:visible, a.btn.btn-outline-secondary.btn-sm:visible';
+    this.allEntitiesTableRows = 'table tbody tr';
+    this.allEntitiesViewsChip = 'button:has-text("Views"), a:has-text("Views")';
+    this.allEntitiesUsersChip = 'button:has-text("Users"), a:has-text("Users")';
+    this.allEntitiesModulesChip = 'button:has-text("Modules"), a:has-text("Modules")';
+    this.allEntitiesActionsMenu = '.dropdown-menu.show';
+    this.allEntitiesActionRecalculate = '.dropdown-menu.show >> text=Recalculate stored fields';
+    this.allEntitiesActionDeleteRows = '.dropdown-menu.show >> text=Delete all rows';
+    this.allEntitiesActionRegistryEditor = '.dropdown-menu.show >> text=Registry editor';
+    this.allEntitiesActionsButtonInRow = 'td:last-child button';
+    this.primaryTable = 'table';
+
   }
 }
 
